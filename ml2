@@ -1,0 +1,7 @@
+data['Height_feet'] = data['Height'].dropna().str.extract(r'([0-9]{,2})\'[0-9]{,2}').astype(float)
+data['Height_inches'] = data['Height'].dropna().str.extract(r'[0-9]{,2}\'([0-9]{,2})').astype(float)
+feet_to_m = 0.3048
+inches_to_m = 0.0254
+data['Height_m'] = data.apply(lambda row: ((row['Height_feet'] * feet_to_m) + (row['Height_inches'] * inches_to_m)), axis=1)
+data.hist(column='Height_m', bins=30)
+plt.show()
