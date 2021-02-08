@@ -5,3 +5,26 @@ inches_to_m = 0.0254
 data['Height_m'] = data.apply(lambda row: ((row['Height_feet'] * feet_to_m) + (row['Height_inches'] * inches_to_m)), axis=1)
 data.hist(column='Height_m', bins=30)
 plt.show()
+
+def mse(y_true, y_pred):
+    error = 0
+    n = 0
+    for i in y_true:
+        error += (i - float(y_pred[n]))**2
+        n += 1
+    error = error/len(y_pred)
+    return error
+    
+fig, ax = plt.subplots()
+ax.scatter(data['Dribbling'], data['BallControl'], label="true_score")
+ax.scatter(data['Dribbling'], data['predicted_BallControl'], label="predicted_score")
+plt.title('Dependence of ball control on dribbling')
+ax.set_xlabel('Dribbling')
+ax.set_ylabel('Ball Control')
+ax.legend()
+plt.show()
+
+def compute_residuals(w, X, y):
+
+    residuals = (X.reshape((-1, 1)) * w) - y
+    return residuals
